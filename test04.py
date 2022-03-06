@@ -1,23 +1,26 @@
-import pytest
-import logging
 from appium import webdriver
+from selenium.webdriver.common.by import By
+import logging
 
-class WebCommon:
-    def __init__(self, apk_name):
-        self.apk_name = apk_name
-        self.driver = None
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
-    def init_driver(self):
-        desired_caps = {
-            "platformName": "",
-            "appPackage": "",
-            "appActivity": "",
-        }
+def setup():
+    desired_caps = {}
+    desired_caps["platformName"] = "Android"
+    desired_caps["deviceName"] = "Amdroid_Emulator"
+    desired_caps["appPackage"] = "io.cloudgrey.the_app"
+    desired_caps["appActivity"] = "io.cloudgrey.the_app.MainActivity"
 
-        self.driver = webdriver.Remote('localhost', desired_caps)
+    return webdriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)
 
-    def get_driver(self):
-        return self.driver
+def test_04():
+    driver = setup()
 
-    def close_driver(self):
-        self.driver.quit()
+    list_elements = driver.find_elements(By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup')
+    list_length = len(list_elements)
+
+    driver.quit()
+
+    assert list_length == 7
+    log.info('List size: ' + str(list_length) + ', expected: 7')
