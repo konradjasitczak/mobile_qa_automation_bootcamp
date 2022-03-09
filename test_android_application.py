@@ -1,6 +1,12 @@
 import pytest
 import logging
+import time
 from webdriver import WebCommon
+from appium.webdriver.webdriver import AppiumBy
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 log = logging.getLogger()
@@ -15,7 +21,10 @@ class Test01Android:
     def setup_method(self, method):
         log.info("setup_method")
         log.info(method.__name__)
+        # if
         apk_name = "theapp"
+        # else:
+        #     apk_name = "filemanager"
         self.webcommon = WebCommon(apk_name)
         self.driver = self.webcommon.get_driver()
 
@@ -46,3 +55,16 @@ class Test01Android:
 
         log.info(f'List size: {len(list_elements)}, expected: 7')
         assert len(list_elements) == 7, "list length is not 7"
+
+    def test_05_text(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'List Demo').click()
+        #self.driver.find_elements_by_xpath(f"//*[@text='List Demo']")
+        time.sleep(0.5)
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Cirrus').size != 0
+
+    # def test_06_send_keys(self):
+    # def test_07_wait(self):
+    # def test_08_scroll(self):
+
+
+
