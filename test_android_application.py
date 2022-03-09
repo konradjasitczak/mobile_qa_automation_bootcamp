@@ -1,5 +1,6 @@
 import pytest
 import logging
+import time
 from webdriver import WebCommon
 from appium.webdriver.webdriver import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
@@ -72,5 +73,14 @@ class Test01Android:
         self.driver.implicitly_wait(1)
         return self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Hello World')
 
-    # def test_07_wait(self):
+    def test_07_wait(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'List Demo').click()
+        timeout = 10
+        timeout_start = time.time()
+        while time.time() < timeout_start + timeout:
+            test = 0
+            if test == 10:
+                break
+            test -= 1
+
     # def test_08_scroll(self):
