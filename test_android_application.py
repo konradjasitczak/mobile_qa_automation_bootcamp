@@ -1,12 +1,8 @@
 import pytest
 import logging
-import time
 from webdriver import WebCommon
 from appium.webdriver.webdriver import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 
 
 log = logging.getLogger()
@@ -59,12 +55,22 @@ class Test01Android:
     def test_05_text(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'List Demo').click()
         #self.driver.find_elements_by_xpath(f"//*[@text='List Demo']")
-        time.sleep(0.5)
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Cirrus').size != 0
+        self.driver.implicitly_wait(1)
+        try:
+            self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Cirrus')
+        except NoSuchElementException:
+            return False
+        return True
+        #self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Cirrus').size != 0
 
-    # def test_06_send_keys(self):
+    def test_06_send_keys(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Echo Box').click()
+        self.driver.implicitly_wait(1)
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'messageInput').send_keys("Hello World")
+        self.driver.implicitly_wait(1)
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'messageSaveBtn').click()
+        self.driver.implicitly_wait(1)
+        return self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Hello World')
+
     # def test_07_wait(self):
     # def test_08_scroll(self):
-
-
-
