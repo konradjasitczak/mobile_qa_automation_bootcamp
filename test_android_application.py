@@ -1,10 +1,15 @@
 import pytest
 import logging
 import time
+
+from selenium.webdriver.common.actions import interaction
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
+
 from webdriver import WebCommon
 from appium.webdriver.webdriver import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.webdriver import ActionChains
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
@@ -71,10 +76,12 @@ class Test01Android:
         self.driver.implicitly_wait(1)
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'messageSaveBtn').click()
         self.driver.implicitly_wait(1)
+        log.info("Check 'Hello World' is printed")
         return self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Hello World')
 
     def test_07_wait(self):
         self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'List Demo').click()
+        log.info("Wait 10 seconds")
         timeout = 10
         timeout_start = time.time()
         while time.time() < timeout_start + timeout:
@@ -83,4 +90,15 @@ class Test01Android:
                 break
             test -= 1
 
-    # def test_08_scroll(self):
+    def test_08_scroll(self):
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'List Demo').click()
+        self.driver.implicitly_wait(1)
+        actions = ActionChains(self.driver)
+        actions.w3c_actions = ActionBuilder(self.driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
+        actions.w3c_actions.pointer_action.move_to_location(570, 1344)
+        actions.w3c_actions.pointer_action.pointer_down()
+        actions.w3c_actions.pointer_action.move_to_location(579, 512)
+        actions.w3c_actions.pointer_action.release()
+        actions.perform()
+        log.info("Check last item is available")
+        return self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Stratus')
