@@ -12,8 +12,8 @@ class WebCommon:
         desired_caps["platformVersion"] = "7"
         desired_caps["deviceName"] = "Android_Emulator"
         if apk_name == "filemanager":
-            desired_caps["app"] = "C:\\Users\\Konrad\\PycharmProjects\\mobile_qa_automation_bootcamp\\app" \
-                                  "\\filemanager.apk "
+            desired_caps["app"] = 'C:\\Users\\Konrad\\PycharmProjects\\mobile_qa_automation_bootcamp\\app' \
+                                  '\\filemanager.apk'
         else:
             desired_caps["app"] = 'C:\\Users\\Konrad\\PycharmProjects\\mobile_qa_automation_bootcamp\\app\\theapp.apk'
         desired_caps["autoGrantPermissions"] = "true"
