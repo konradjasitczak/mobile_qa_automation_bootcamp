@@ -20,9 +20,6 @@ class Test01Android:
         apk_name = "theapp"
         self.webcommon = WebCommon(apk_name)
         self.driver = self.webcommon.get_driver()
-        apk_filemanager = "filemanager"
-        self.webcommon2 = WebCommon(apk_filemanager)
-        self.filemanager = self.webcommon2.get_driver()
 
     def get_element_by_text(self, text):
         return self.driver.find_element_by_xpath(f"//*[@text=\"{text}\"]")
